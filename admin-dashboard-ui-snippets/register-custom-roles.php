@@ -80,4 +80,3 @@ add_action('init', function () {
         add_role($key, $label, $caps);
     }
 });
-
