@@ -18,13 +18,22 @@
  */
 function get_custom_account_tabs() {
     return [
+
+        // Soporte tab with contact form
         [
             'endpoint' => 'customer-support',
             'label'    => 'Soporte',
             'content'  => 'render_support_tab_content',
         ],
 
-        // Add more tabs like this:
+        // Recompensas tab with user reward data + chart
+        [
+            'endpoint' => 'customer-rewards',
+            'label'    => 'Recompensas',
+            'content'  => 'render_rewards_tab_content',
+        ],
+
+        // Add more tabs below as needed:
         // [
         //     'endpoint' => 'payouts',
         //     'label'    => 'Pagos',

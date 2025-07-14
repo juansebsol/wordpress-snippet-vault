@@ -1,32 +1,30 @@
-<?php
 /**
  * Conditionally Show WooCommerce My Account Tabs Based on User Role
  *
- * This script allows you to restrict specific dashboard tabs in the 
- * WooCommerce My Account area based on user roles.
+ * This script restricts access to specific WooCommerce My Account tabs
+ * by removing them from the sidebar for unauthorized users.
  *
- * Supports multiple tabs
- * Supports multiple roles per tab
- * Easy to extend — just update the config array
+ * Works modularly with custom-my-account-tabs.php
+ * Ensure this file is loaded *after* the tab registration file
+ * Must use a higher priority (e.g. 999) to override default tab additions
  *
- * Example: Only 'hoster', 'admin' and 'shop_manager' can see the 'customer-rewards' tab
+ * To add more restricted tabs, update the `get_tab_visibility_rules()` array below.
  */
 
 /**
- * Define which roles can see which tabs
- * Key = WooCommerce tab slug
- * Value = Array of roles that can access that tab
+ * Role-based visibility rules for account tabs
+ * Format: 'tab_slug' => ['allowed_role1', 'allowed_role2']
  */
 function get_tab_visibility_rules() {
     return [
         'customer-rewards' => ['administrator', 'shop_manager', 'hoster'],
-        // 'my-custom-tab'  => ['vendor_plus', 'editor'],
-        // Add more tab slugs and allowed roles as needed
+        // 'payouts'         => ['hoster', 'vendor_plus'],
+        // 'analytics'       => ['administrator'],
     ];
 }
 
 /**
- * Remove tabs if the current user doesn't have access
+ * Remove tabs the current user should not see
  */
 function filter_account_tabs_by_role($items) {
     $user = wp_get_current_user();
@@ -41,5 +39,4 @@ function filter_account_tabs_by_role($items) {
 
     return $items;
 }
-add_filter('woocommerce_account_menu_items', 'filter_account_tabs_by_role');
-
+add_filter('woocommerce_account_menu_items', 'filter_account_tabs_by_role', 999); // High priority!
